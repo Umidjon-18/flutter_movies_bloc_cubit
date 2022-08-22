@@ -6,21 +6,19 @@ import 'package:intl/intl.dart';
 
 import '../../services/network_services/now_playing.dart';
 
-
-part 'now_playing_event.dart';
 part 'now_playing_state.dart';
 
-class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
+class NowPlayingBloc extends Cubit<NowPlayingState> {
   List<NowPlayingMovieModel> nowPlayingMovies = [];
   List<NowPlayingMovieModel> tempSearch = [];
   int randomPage = 1;
   int totalPages = 1;
-  NowPlayingBloc() : super(const NowPlayingInitial()) {
-    on<NowPlayingLoadDataEvent>((event, emit) async {
-      try {
-        bool isAvailable = await NetworkConnection.checkConnection();
-        if(isAvailable){
-          nowPlayingMovies.clear();
+  NowPlayingBloc() : super(const NowPlayingInitial());
+  nowPlayingLoadData() async {
+    try {
+      bool isAvailable = await NetworkConnection.checkConnection();
+      if (isAvailable) {
+        nowPlayingMovies.clear();
         emit(const NowPlayingIsLoading());
         var moviesDataList = await NowPlayingService().getNowPlayingMovies(randomPage);
         totalPages = moviesDataList['total_pages'];
@@ -35,48 +33,51 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
         await Future.delayed(const Duration(milliseconds: 300), () {
           emit(NowPlayingIsLoaded(nowPlayingMovies: nowPlayingMovies));
         });
-        }else {
-          emit(const NowPlayingDisconnected());
-        }
-      } catch (e) {
-        emit(NowPlayingIsError(errorMessage: "Something went wrong: $e"));
+      } else {
+        emit(const NowPlayingDisconnected());
       }
-    });
+    } catch (e) {
+      emit(NowPlayingIsError(errorMessage: "Something went wrong: $e"));
+    }
+  }
 
-    on<NowPlayingSortByPopularityEvent>((event, emit) {
-      nowPlayingMovies.sort(((b, a) {
-        return a.popularity!.compareTo(b.popularity!);
-      }));
-      emit(NowPlayingSortedByPopularity(nowPlayingMovies: nowPlayingMovies));
-    });
-    on<NowPlayingSortByRateEvent>((event, emit) {
-      nowPlayingMovies.sort(((b, a) {
-        return a.voteAverage!.compareTo(b.voteAverage!);
-      }));
-      emit(NowPlayingSortedByRate(nowPlayingMovies: nowPlayingMovies));
-    });
-    on<NowPlayingSortByDateEvent>((event, emit) {
-      DateFormat format = DateFormat("yyyy-MM-dd");
-      nowPlayingMovies.sort(((a, b) {
-        return format.parse(a.releaseDate!).compareTo(format.parse(b.releaseDate!));
-      }));
-      emit(NowPlayingSortedByDate(nowPlayingMovies: nowPlayingMovies));
-    });
-    on<NowPlayingSortByVoteEvent>((event, emit) {
-      nowPlayingMovies.sort(((b, a) {
-        return a.voteCount!.compareTo(b.voteCount!);
-      }));
-      emit(NowPlayingSortedByVote(nowPlayingMovies: nowPlayingMovies));
-    });
-    on<NowPlayingSearchEvent>((event, emit) {
-      emit(const NowPlayingIsLoading());
-      tempSearch.clear();
-      for (NowPlayingMovieModel movie in nowPlayingMovies) {
-        if (movie.title!.toLowerCase().contains(event.searchedText.toLowerCase())) {
-          tempSearch.add(movie);
-        }
+  nowPlayingSortByPopularity() {
+    nowPlayingMovies.sort(((b, a) {
+      return a.popularity!.compareTo(b.popularity!);
+    }));
+    emit(NowPlayingSortedByPopularity(nowPlayingMovies: nowPlayingMovies));
+  }
+
+  nowPlayingSortByRate() {
+    nowPlayingMovies.sort(((b, a) {
+      return a.voteAverage!.compareTo(b.voteAverage!);
+    }));
+    emit(NowPlayingSortedByRate(nowPlayingMovies: nowPlayingMovies));
+  }
+
+  nowPlayingSortByDate() {
+    DateFormat format = DateFormat("yyyy-MM-dd");
+    nowPlayingMovies.sort(((a, b) {
+      return format.parse(a.releaseDate!).compareTo(format.parse(b.releaseDate!));
+    }));
+    emit(NowPlayingSortedByDate(nowPlayingMovies: nowPlayingMovies));
+  }
+
+  nowPlayingSortByVote() {
+    nowPlayingMovies.sort(((b, a) {
+      return a.voteCount!.compareTo(b.voteCount!);
+    }));
+    emit(NowPlayingSortedByVote(nowPlayingMovies: nowPlayingMovies));
+  }
+
+  nowPlayingSearch(String searchedText) {
+    emit(const NowPlayingIsLoading());
+    tempSearch.clear();
+    for (NowPlayingMovieModel movie in nowPlayingMovies) {
+      if (movie.title!.toLowerCase().contains(searchedText.toLowerCase())) {
+        tempSearch.add(movie);
       }
-      emit(NowPlayingSearch(searchedNowPlayingMovies: tempSearch));
-    });
+    }
+    emit(NowPlayingSearch(searchedNowPlayingMovies: tempSearch));
   }
 }

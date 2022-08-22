@@ -19,7 +19,7 @@ class UpcomingGrid extends StatelessWidget {
       backgroundColor: Colors.white,
       strokeWidth: 0,
       onRefresh: () async {
-        context.read<UpcomingBloc>().add(const UpcomingLoadDataEvent());
+        context.read<UpcomingBloc>().upcomingLoadData();
       },
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),

@@ -27,7 +27,7 @@ class _DetailsViewState extends State<DetailsView> {
   Widget build(BuildContext context) {
     return BlocBuilder<DetailBloc, DetailState>(builder: ((context, state) {
       if (state is DetailInitial) {
-        context.read<DetailBloc>().add(DetailLoadDataEvent(movieId: widget.movieId));
+        context.read<DetailBloc>().detailLoadData(widget.movieId);
       } else if (state is DetailIsLoading) {
         return Container(
             color: Theme.of(context).scaffoldBackgroundColor,
@@ -58,7 +58,7 @@ class _DetailsViewState extends State<DetailsView> {
             ),
           );
         } else {
-          context.read<DetailBloc>().add(DetailLoadDataEvent(movieId: widget.movieId));
+          context.read<DetailBloc>().detailLoadData(widget.movieId);
           return Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: const CupertinoActivityIndicator(

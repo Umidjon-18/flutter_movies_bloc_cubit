@@ -57,7 +57,7 @@ class _HomeViewState extends State<HomeView> {
                     centerTitle: true,
                     leading: AnimatedIconButton(
                       onPressed: () {
-                        context.read<MainBloc>().add(const MainChangeThemeEvent());
+                        context.read<MainBloc>().changeTheme();
                       },
                       animationDirection: const AnimationDirection.forward(),
                       duration: const Duration(milliseconds: 700),
@@ -109,7 +109,7 @@ class _HomeViewState extends State<HomeView> {
                             child: const Text('english').tr(),
                             onTap: () {
                               context.setLocale(const Locale('en', 'US'));
-                              homeBloc.add(HomeChangeToEnglishEvent(pageIndex: state.pageIndex, isVisible: state.isVisible));
+                              homeBloc.changeToEnglish(state.pageIndex);
                             },
                           ),
                           PopupMenuItem(
@@ -117,7 +117,7 @@ class _HomeViewState extends State<HomeView> {
                             child: const Text('russian').tr(),
                             onTap: () {
                               context.setLocale(const Locale('ru', 'RU'));
-                              homeBloc.add(HomeChangeToRussianEvent(pageIndex: state.pageIndex, isVisible: state.isVisible));
+                              homeBloc.changeRussian(state.pageIndex);
                             },
                           ),
                           PopupMenuItem(
@@ -125,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                             child: const Text('uzbek').tr(),
                             onTap: () {
                               context.setLocale(const Locale('uz', 'UZ'));
-                              homeBloc.add(HomeChangeToUzbekEvent(pageIndex: state.pageIndex, isVisible: state.isVisible));
+                              homeBloc.changeToUzbek(state.pageIndex);
                             },
                           ),
                         ],
@@ -146,13 +146,13 @@ class _HomeViewState extends State<HomeView> {
                             onTap: () {
                               switch (state.pageIndex) {
                                 case 0:
-                                  nowPlayingBloc.add(const NowPlayingSortByPopularityEvent());
+                                  nowPlayingBloc.nowPlayingSortByPopularity();
                                   break;
                                 case 1:
-                                  upcomingBloc.add(const UpcomingSortByPopularityEvent());
+                                  upcomingBloc.upcomingSortByPopularity();
                                   break;
                                 case 2:
-                                  popularBloc.add(const PopularSortByPopularityEvent());
+                                  popularBloc.popularSortByPopularity();
                                   break;
                                 default:
                               }
@@ -165,13 +165,13 @@ class _HomeViewState extends State<HomeView> {
                             onTap: () {
                               switch (state.pageIndex) {
                                 case 0:
-                                  nowPlayingBloc.add(const NowPlayingSortByRateEvent());
+                                  nowPlayingBloc.nowPlayingSortByRate();
                                   break;
                                 case 1:
-                                  upcomingBloc.add(const UpcomingSortByRateEvent());
+                                  upcomingBloc.upcomingSortByRate();
                                   break;
                                 case 2:
-                                  popularBloc.add(const PopularSortByRateEvent());
+                                  popularBloc.popularSortByRate();
                                   break;
                                 default:
                               }
@@ -184,13 +184,13 @@ class _HomeViewState extends State<HomeView> {
                             onTap: () {
                               switch (state.pageIndex) {
                                 case 0:
-                                  nowPlayingBloc.add(const NowPlayingSortByDateEvent());
+                                  nowPlayingBloc.nowPlayingSortByDate();
                                   break;
                                 case 1:
-                                  upcomingBloc.add(const UpcomingSortByDateEvent());
+                                  upcomingBloc.upcomingSortByDate();
                                   break;
                                 case 2:
-                                  popularBloc.add(const PopularSortByDateEvent());
+                                  popularBloc.popularSortByDate();
                                   break;
                                 default:
                               }
@@ -203,13 +203,13 @@ class _HomeViewState extends State<HomeView> {
                             onTap: () {
                               switch (state.pageIndex) {
                                 case 0:
-                                  nowPlayingBloc.add(const NowPlayingSortByVoteEvent());
+                                  nowPlayingBloc.nowPlayingSortByVote();
                                   break;
                                 case 1:
-                                  upcomingBloc.add(const UpcomingSortByVoteEvent());
+                                  upcomingBloc.upcomingSortByVote();
                                   break;
                                 case 2:
-                                  popularBloc.add(const PopularSortByVoteEvent());
+                                  popularBloc.popularSortByVote();
                                   break;
                                 default:
                               }
@@ -247,16 +247,16 @@ class _HomeViewState extends State<HomeView> {
                                   focusNode: myFocusNode,
                                   autofocus: false,
                                   controller: homeBloc.searchController,
-                                  onChanged: (String text) {
+                                  onChanged: (String searchedText) {
                                     switch (state.pageIndex) {
                                       case 0:
-                                        nowPlayingBloc.add(NowPlayingSearchEvent(searchedText: text));
+                                        nowPlayingBloc.nowPlayingSearch(searchedText);
                                         break;
                                       case 1:
-                                        upcomingBloc.add(UpcomingSearchEvent(searchedText: text));
+                                        upcomingBloc.upcomingSearch(searchedText);
                                         break;
                                       case 2:
-                                        popularBloc.add(PopularSearchEvent(searchedText: text));
+                                        popularBloc.popularSearch(searchedText);
                                         break;
                                       default:
                                     }
@@ -291,8 +291,8 @@ class _HomeViewState extends State<HomeView> {
                 ? PageView(
                     physics: const BouncingScrollPhysics(),
                     controller: pageController,
-                    onPageChanged: (index) {
-                      homeBloc.add(HomeNavigationBarChangedEvent(pageIndex: index));
+                    onPageChanged: (pageIndex) {
+                      homeBloc.navigationBarChanged(pageIndex);
                     },
                     children: Constants.pages,
                   )
@@ -320,7 +320,7 @@ class _HomeViewState extends State<HomeView> {
                                     child: const Text('english').tr(),
                                     onTap: () {
                                       context.setLocale(const Locale('en', 'US'));
-                                      homeBloc.add(HomeChangeToEnglishEvent(pageIndex: state.pageIndex, isVisible: state.isVisible));
+                                      homeBloc.changeToEnglish(state.pageIndex);
                                     },
                                   ),
                                   PopupMenuItem(
@@ -328,7 +328,7 @@ class _HomeViewState extends State<HomeView> {
                                     child: const Text('russian').tr(),
                                     onTap: () {
                                       context.setLocale(const Locale('ru', 'RU'));
-                                      homeBloc.add(HomeChangeToRussianEvent(pageIndex: state.pageIndex, isVisible: state.isVisible));
+                                      homeBloc.changeRussian(state.pageIndex);
                                     },
                                   ),
                                   PopupMenuItem(
@@ -336,7 +336,7 @@ class _HomeViewState extends State<HomeView> {
                                     child: const Text('uzbek').tr(),
                                     onTap: () {
                                       context.setLocale(const Locale('uz', 'UZ'));
-                                      homeBloc.add(HomeChangeToUzbekEvent(pageIndex: state.pageIndex, isVisible: state.isVisible));
+                                      homeBloc.changeToUzbek(state.pageIndex);
                                     },
                                   ),
                                 ],
@@ -357,13 +357,13 @@ class _HomeViewState extends State<HomeView> {
                                     onTap: () {
                                       switch (state.pageIndex) {
                                         case 0:
-                                          nowPlayingBloc.add(const NowPlayingSortByPopularityEvent());
+                                          nowPlayingBloc.nowPlayingSortByPopularity();
                                           break;
                                         case 1:
-                                          upcomingBloc.add(const UpcomingSortByPopularityEvent());
+                                          upcomingBloc.upcomingSortByPopularity();
                                           break;
                                         case 2:
-                                          popularBloc.add(const PopularSortByPopularityEvent());
+                                          popularBloc.popularSortByPopularity();
                                           break;
                                         default:
                                       }
@@ -376,13 +376,13 @@ class _HomeViewState extends State<HomeView> {
                                     onTap: () {
                                       switch (state.pageIndex) {
                                         case 0:
-                                          nowPlayingBloc.add(const NowPlayingSortByRateEvent());
+                                          nowPlayingBloc.nowPlayingSortByRate();
                                           break;
                                         case 1:
-                                          upcomingBloc.add(const UpcomingSortByRateEvent());
+                                          upcomingBloc.upcomingSortByRate();
                                           break;
                                         case 2:
-                                          popularBloc.add(const PopularSortByRateEvent());
+                                          popularBloc.popularSortByRate();
                                           break;
                                         default:
                                       }
@@ -395,13 +395,13 @@ class _HomeViewState extends State<HomeView> {
                                     onTap: () {
                                       switch (state.pageIndex) {
                                         case 0:
-                                          nowPlayingBloc.add(const NowPlayingSortByDateEvent());
+                                          nowPlayingBloc.nowPlayingSortByDate();
                                           break;
                                         case 1:
-                                          upcomingBloc.add(const UpcomingSortByDateEvent());
+                                          upcomingBloc.upcomingSortByDate();
                                           break;
                                         case 2:
-                                          popularBloc.add(const PopularSortByDateEvent());
+                                          popularBloc.popularSortByDate();
                                           break;
                                         default:
                                       }
@@ -414,13 +414,13 @@ class _HomeViewState extends State<HomeView> {
                                     onTap: () {
                                       switch (state.pageIndex) {
                                         case 0:
-                                          nowPlayingBloc.add(const NowPlayingSortByVoteEvent());
+                                          nowPlayingBloc.nowPlayingSortByVote();
                                           break;
                                         case 1:
-                                          upcomingBloc.add(const UpcomingSortByVoteEvent());
+                                          upcomingBloc.upcomingSortByVote();
                                           break;
                                         case 2:
-                                          popularBloc.add(const PopularSortByVoteEvent());
+                                          popularBloc.popularSortByVote();
                                           break;
                                         default:
                                       }
@@ -432,7 +432,7 @@ class _HomeViewState extends State<HomeView> {
                               // #search button
                               IconButton(
                                 onPressed: () {
-                                  homeBloc.add(HomeSearchFieldVisibilityChangedEvent(pageIndex: state.pageIndex, isVisible: !state.isVisible));
+                                  homeBloc.searchFieldVisibilityChanged(state.pageIndex, !state.isVisible);
                                 },
                                 icon: Icon(
                                   Icons.search,
@@ -482,16 +482,16 @@ class _HomeViewState extends State<HomeView> {
                                             focusNode: myFocusNode,
                                             autofocus: false,
                                             controller: homeBloc.searchController,
-                                            onChanged: (String text) {
+                                            onChanged: (String searchedText) {
                                               switch (state.pageIndex) {
                                                 case 0:
-                                                  nowPlayingBloc.add(NowPlayingSearchEvent(searchedText: text));
+                                                  nowPlayingBloc.nowPlayingSearch(searchedText);
                                                   break;
                                                 case 1:
-                                                  upcomingBloc.add(UpcomingSearchEvent(searchedText: text));
+                                                  upcomingBloc.upcomingSearch(searchedText);
                                                   break;
                                                 case 2:
-                                                  popularBloc.add(PopularSearchEvent(searchedText: text));
+                                                  popularBloc.popularSearch(searchedText);
                                                   break;
                                                 default:
                                               }
@@ -513,8 +513,8 @@ class _HomeViewState extends State<HomeView> {
                                 child: PageView(
                                   physics: const BouncingScrollPhysics(),
                                   controller: pageController,
-                                  onPageChanged: (index) {
-                                    homeBloc.add(HomeNavigationBarChangedEvent(pageIndex: index));
+                                  onPageChanged: (pageIndex) {
+                                    homeBloc.navigationBarChanged(pageIndex);
                                   },
                                   children: Constants.pages,
                                 )),
@@ -525,16 +525,16 @@ class _HomeViewState extends State<HomeView> {
                       // #navigation rail
                       NavigationRail(
                         selectedIndex: state.pageIndex,
-                        onDestinationSelected: (int index) {
-                          pageController.animateToPage(index,
+                        onDestinationSelected: (int pageIndex) {
+                          pageController.animateToPage(pageIndex,
                               duration: const Duration(milliseconds: 500), curve: Curves.easeOutSine);
-                          homeBloc.add(HomeNavigationBarChangedEvent(pageIndex: index));
+                          homeBloc.navigationBarChanged(pageIndex);
                         },
                         leading: SizedBox(
                           height: size.height * 0.2,
                           child: AnimatedIconButton(
                             onPressed: () {
-                              context.read<MainBloc>().add(const MainChangeThemeEvent());
+                              context.read<MainBloc>().changeTheme();
                             },
                             duration: const Duration(milliseconds: 700),
                             icons: [
@@ -590,10 +590,10 @@ class _HomeViewState extends State<HomeView> {
                 ? BottomNavigationBar(
                     selectedItemColor: Colors.blue,
                     currentIndex: state.pageIndex,
-                    onTap: (index) {
-                      pageController.animateToPage(index,
+                    onTap: (pageIndex) {
+                      pageController.animateToPage(pageIndex,
                           duration: const Duration(milliseconds: 500), curve: Curves.easeOutSine);
-                      homeBloc.add(HomeNavigationBarChangedEvent(pageIndex: index));
+                      homeBloc.navigationBarChanged(pageIndex);
                     },
                     items: [
                       BottomNavigationBarItem(

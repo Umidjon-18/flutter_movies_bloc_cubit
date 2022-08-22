@@ -28,7 +28,7 @@ class _YoutubeViewState extends State<YoutubeView> {
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeBloc, YoutubeState>(builder: (context, state) {
       if (state is YoutubeInitial) {
-        context.read<YoutubeBloc>().add(YoutubeLoadDataEvent(movieId: widget.movieId));
+        context.read<YoutubeBloc>().youtubeLoadData(widget.movieId);
         return Container(color: Theme.of(context).scaffoldBackgroundColor, child: const CupertinoActivityIndicator());
       } else if (state is YoutubeIsLoading) {
         return Container(color: Theme.of(context).scaffoldBackgroundColor, child: const CupertinoActivityIndicator());
@@ -101,7 +101,7 @@ class _YoutubeViewState extends State<YoutubeView> {
                   ),
           );
         } else {
-          context.read<YoutubeBloc>().add(YoutubeLoadDataEvent(movieId: widget.movieId));
+          context.read<YoutubeBloc>().youtubeLoadData(widget.movieId);
           return Container(color: Theme.of(context).scaffoldBackgroundColor, child: const CupertinoActivityIndicator());
         }
       } else if (state is YoutubeDisconnected) {

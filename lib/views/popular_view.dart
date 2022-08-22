@@ -19,7 +19,7 @@ class _PopularViewState extends State<PopularView> {
     return BlocBuilder<PopularBloc, PopularState>(
       builder: (context, state) {
         if (state is PopularInitial) {
-          context.read<PopularBloc>().add(const PopularLoadDataEvent());
+          context.read<PopularBloc>().popularLoadData();
         } else if (state is PopularIsLoading) {
           return const Center(
             child: CupertinoActivityIndicator(),
@@ -35,7 +35,7 @@ class _PopularViewState extends State<PopularView> {
             backgroundColor: Colors.white,
             strokeWidth: 0,
             onRefresh: () async {
-              context.read<PopularBloc>().add(const PopularLoadDataEvent());
+              context.read<PopularBloc>().popularLoadData();
             },
             child: PopularGrid(
               moviesList: (state is PopularSearch)

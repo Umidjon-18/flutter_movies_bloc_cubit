@@ -21,7 +21,7 @@ class PopularGrid extends StatelessWidget {
       backgroundColor: Colors.white,
       strokeWidth: 0,
       onRefresh: () async {
-        context.read<PopularBloc>().add(const PopularLoadDataEvent());
+        context.read<PopularBloc>().popularLoadData();
       },
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),

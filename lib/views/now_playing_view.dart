@@ -19,7 +19,7 @@ class _NowPlayingViewState extends State<NowPlayingView> {
     return BlocBuilder<NowPlayingBloc, NowPlayingState>(
       builder: (context, state) {
         if (state is NowPlayingInitial) {
-          context.read<NowPlayingBloc>().add(const NowPlayingLoadDataEvent());
+          context.read<NowPlayingBloc>().nowPlayingLoadData();
         } else if (state is NowPlayingIsLoading) {
           return const Center(
             child: CupertinoActivityIndicator(),

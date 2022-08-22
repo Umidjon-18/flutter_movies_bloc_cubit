@@ -19,7 +19,7 @@ class _UpcomingViewState extends State<UpcomingView> {
     return BlocBuilder<UpcomingBloc, UpcomingState>(
       builder: (context, state) {
         if (state is UpcomingInitial) {
-          context.read<UpcomingBloc>().add(const UpcomingLoadDataEvent());
+          context.read<UpcomingBloc>().upcomingLoadData();
         } else if (state is UpcomingIsLoading) {
           return const Center(
             child: CupertinoActivityIndicator(),

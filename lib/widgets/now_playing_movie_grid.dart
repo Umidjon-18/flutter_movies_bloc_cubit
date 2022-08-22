@@ -24,7 +24,7 @@ class _NowPlayingGridState extends State<NowPlayingGrid> {
       backgroundColor: Colors.white,
       strokeWidth: 0,
       onRefresh: () async {
-        context.read<NowPlayingBloc>().add(const NowPlayingLoadDataEvent());
+        context.read<NowPlayingBloc>().nowPlayingLoadData();
       },
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),

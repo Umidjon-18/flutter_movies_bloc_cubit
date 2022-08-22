@@ -90,7 +90,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                       Timer(const Duration(milliseconds: 1000), () async {
                                         await NetworkConnection.checkConnection().then((res) {
                                           res
-                                              ? context.read<NowPlayingBloc>().add(const NowPlayingLoadDataEvent())
+                                              ? context.read<NowPlayingBloc>().nowPlayingLoadData()
                                               : indicatorVisibility = false;
                                           setState(() {});
                                         });
@@ -102,7 +102,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                       Timer(const Duration(milliseconds: 1000), () async {
                                         await NetworkConnection.checkConnection().then((res) {
                                           res
-                                              ? context.read<UpcomingBloc>().add(const UpcomingLoadDataEvent())
+                                              ? context.read<UpcomingBloc>().upcomingLoadData()
                                               : indicatorVisibility = false;
                                           setState(() {});
                                         });
@@ -114,7 +114,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                       Timer(const Duration(milliseconds: 1000), () async {
                                         await NetworkConnection.checkConnection().then((res) {
                                           res
-                                              ? context.read<PopularBloc>().add(const PopularLoadDataEvent())
+                                              ? context.read<PopularBloc>().popularLoadData()
                                               : indicatorVisibility = false;
                                           setState(() {});
                                         });
@@ -129,7 +129,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                           res
                                               ? context
                                                   .read<DetailBloc>()
-                                                  .add(DetailLoadDataEvent(movieId: widget.movieId ?? "0"))
+                                                  .detailLoadData(widget.movieId ?? "0")
                                               : indicatorVisibility = false;
                                           setState(() {});
                                         });
@@ -144,7 +144,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                           res
                                               ? context
                                                   .read<YoutubeBloc>()
-                                                  .add(YoutubeLoadDataEvent(movieId: widget.movieId ?? '0'))
+                                                  .youtubeLoadData(widget.movieId ?? '0')
                                               : indicatorVisibility = false;
                                           setState(() {});
                                         });
@@ -197,7 +197,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                                   res
                                                       ? context
                                                           .read<NowPlayingBloc>()
-                                                          .add(const NowPlayingLoadDataEvent())
+                                                          .nowPlayingLoadData()
                                                       : indicatorVisibility = false;
                                                   setState(() {});
                                                 });
@@ -209,7 +209,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                               Timer(const Duration(milliseconds: 1000), () async {
                                                 await NetworkConnection.checkConnection().then((res) {
                                                   res
-                                                      ? context.read<UpcomingBloc>().add(const UpcomingLoadDataEvent())
+                                                      ? context.read<UpcomingBloc>().upcomingLoadData()
                                                       : indicatorVisibility = false;
                                                   setState(() {});
                                                 });
@@ -221,7 +221,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                               Timer(const Duration(milliseconds: 1000), () async {
                                                 await NetworkConnection.checkConnection().then((res) {
                                                   res
-                                                      ? context.read<PopularBloc>().add(const PopularLoadDataEvent())
+                                                      ? context.read<PopularBloc>().popularLoadData()
                                                       : indicatorVisibility = false;
                                                   setState(() {});
                                                 });
@@ -236,7 +236,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                                   res
                                                       ? context
                                                           .read<DetailBloc>()
-                                                          .add(DetailLoadDataEvent(movieId: widget.movieId ?? "0"))
+                                                          .detailLoadData(widget.movieId ?? "0")
                                                       : indicatorVisibility = false;
                                                   setState(() {});
                                                 });
@@ -251,7 +251,7 @@ class _ConnectionErrorViewState extends State<ConnectionErrorView> {
                                                   res
                                                       ? context
                                                           .read<YoutubeBloc>()
-                                                          .add(YoutubeLoadDataEvent(movieId: widget.movieId ?? '0'))
+                                                          .youtubeLoadData(widget.movieId ?? '0')
                                                       : indicatorVisibility = false;
                                                   setState(() {});
                                                 });
