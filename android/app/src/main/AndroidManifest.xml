@@ -17,7 +17,7 @@
         </intent>
     </queries>
    <application
-        android:label="Flutter Movies"
+        android:label="Movies Bloc"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

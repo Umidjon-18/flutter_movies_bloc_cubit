@@ -21,7 +21,7 @@ class Routes {
             builder: (
               context,
             ) =>
-                const HomeView(),
+                const IntroView(),
           );
           case homePage:
           return MaterialPageRoute(
@@ -39,16 +39,16 @@ class Routes {
               movieId: args?['movieId'],
             ),
           );
-        // case youtubePage:
-        //   return MaterialPageRoute(
-        //     builder: (
-        //       context,
-        //     ) =>
-        //         YoutubeView(
-        //       movieId: args?['movieId'],
-        //       movieName: args?['movieName'],
-        //     ),
-        //   );
+        case youtubePage:
+          return MaterialPageRoute(
+            builder: (
+              context,
+            ) =>
+                YoutubeView(
+              movieId: args?['movieId'],
+              movieName: args?['movieName'],
+            ),
+          );
         default:
           return MaterialPageRoute(builder: (context) => const HomeView());
       }

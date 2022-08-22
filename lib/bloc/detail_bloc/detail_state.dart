@@ -1,7 +1,10 @@
 part of 'detail_bloc.dart';
 
-abstract class DetailState extends Equatable {
+class DetailState extends Equatable {
   const DetailState();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class DetailInitial extends DetailState {
@@ -22,6 +25,12 @@ class DetailIsLoaded extends DetailState {
   final DetailModel movieDetail;
   @override
   List<Object?> get props => [movieDetail];
+}
+
+class DetailDisconnected extends DetailState {
+  const DetailDisconnected();
+  @override
+  List<Object?> get props => [];
 }
 
 class DetailIsError extends DetailState {

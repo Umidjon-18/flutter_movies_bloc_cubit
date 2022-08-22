@@ -16,4 +16,3 @@ class DetailOnDispose extends DetailEvent {
   @override
   List<Object?> get props => [];
 }
-

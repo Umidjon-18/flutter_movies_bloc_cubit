@@ -25,8 +25,7 @@ class StoryLine extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0),
           child: Text(
             storyline,
-            style: textTheme.bodyText1!
-                .copyWith(color: Colors.grey, fontSize: 16.0),
+            style: textTheme.bodyText1!.copyWith(color: Colors.grey, fontSize: 16.0),
           ),
         ),
         // No expand-collapse in this tutorial, we just slap the "more"
@@ -39,8 +38,7 @@ class StoryLine extends StatelessWidget {
             children: [
               Text(
                 'more',
-                style: textTheme.bodyText1!
-                    .copyWith(fontSize: 16.0, color: theme.colorScheme.primary),
+                style: textTheme.bodyText1!.copyWith(fontSize: 16.0, color: theme.colorScheme.primary),
               ).tr(),
               Icon(
                 Icons.keyboard_arrow_down,

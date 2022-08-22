@@ -11,7 +11,6 @@ class MainLoadThemeEvent extends MainEvent {
   List<Object?> get props => [isDark];
 }
 
-
 class MainChangeThemeEvent extends MainEvent {
   const MainChangeThemeEvent();
   @override
